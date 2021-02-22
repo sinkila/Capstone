@@ -54,13 +54,17 @@ edx <- rbind(edx, removed)
 
 rm(dl, ratings, movies, test_index, temp, movielens, removed)
 
+
 ##########################################################
 ## Following code written by Sari Inkila for the edX MovieLens Project
 ##########################################################
 
 #Due to the performance issues, I'm saving edx to a file so I don't need to recreated
 saveRDS(edx, file = "MovieLens_edx_2021-02-09.RDS") 
-#edx<- readRDS("MovieLens_edx.RDS")
+saveRDS(validation, file = "MovieLens_validation_2021-02-09.RDS")
+
+#edx<- readRDS("MovieLens_edx_2021-02-09.RDS")
+#validation<- readRDS("MovieLens_validation_2021-02-09.RDS")
 
 if(!require(dplyr)) install.packages("dplyr", repos = "http://cran.us.r-project.org")
 if(!require(dslabs)) install.packages("dslabs", repos = "http://cran.us.r-project.org")
@@ -396,8 +400,8 @@ saveRDS(RMSE, file = "MovieLens_RMSE-2021-02-12-2.RDS")
 ##########################################################
 
 #Computing year of publishing the movie, genre, movie and user effects prediction and RMSE:
-edx<- readRDS("MovieLens_edx2_2021-02-17.RDS")
-validation<- readRDS("MovieLens_validation_2021-02-17.RDS")
+#edx<- readRDS("MovieLens_edx2_2021-02-17.RDS")
+#validation<- readRDS("MovieLens_validation_2021-02-17.RDS")
 
 #creating the new field for genres_mod
 validation <- validation %>%
@@ -415,7 +419,8 @@ validation <- validation %>%
 
 # Prediction model with whole edx data set
 #Calculating mu
-mu <- mean(edx2$rating)
+mu <- mean(edx$rating)
+l<- lambda
 
 #Movie effect
 b_i_tab <- edx %>% 
@@ -456,7 +461,8 @@ validation_RMSE <- RMSE(predicted_ratings_valid, validation$rating)
 
 #Adding the results as a new row to the RMSE tibble
 rmse_results <- bind_rows(rmse_results,
-                          tibble(method = "Final model on validation", RMSE = validation_RMSE))
+                          tibble(method = "Final model on validation", 
+                                 RMSE = validation_RMSE))
 rmse_results 
 
 
