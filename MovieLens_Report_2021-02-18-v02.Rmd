@@ -84,7 +84,7 @@ The model was developed using the least squares estimate (LSE) approximation and
 
 Target of the project was to build a model that achieves a residual mean squared error (RMSE) lower than 0.86490. The final result achieved with the model developed using the edx data set resulted on the validation set in RMSE of: 
 ```{r results1, echo=FALSE, eval=TRUE, results="asis"} 
-#readRDS("MovieLens_validation_RMSE_2021-02-18.RDS")
+readRDS("MovieLens_validation_RMSE2_2021-02-18.RDS")
 ```
 
 
@@ -846,6 +846,8 @@ In order to perform more elaborate analysis e.g. using the caret -package train 
 I have to admit that producing a readable report using rmarkdown proved more time consuming than I had anticipated. Also, there were challenges in keeping the code bases same in the plain RScript and the RMarkdown file once I started to add the parts required in the report development. However, the ability to update and modify the report using Rmarkdown file are unmatched with other more manual means of creating the final version of the report. 
 
 Unfortunately, as the code bases in the RMarkdown file and the RScript started to change, they are now not identical anymore. Due to my lack of ability to get the autodependency option / parameters to work as I wanted, I had to resort to using RDS save and read -functions in the code chunks. This may confuse the reader of the code. The unintended benefit of doing so resulted in improved ability to debog any deviations that resulted between the to versions of the RScript after spliting to RScript file and RMarkdown file. So, keep these in mind as you read the code below.
+
+Also note that the RMarkdown file needs to be run twice to ensure that the final results are displayed in the executive summary.
 
 Below you will find all of the code related to this report.
 ```{r ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE, width = 200}
