@@ -1,7 +1,7 @@
 ---
 title: "MovieLens Report"
 author: "Sari Inkila"
-date: "18/02/2021"
+date: "22/02/2021"
 output: 
   pdf_document:
     toc: TRUE
@@ -54,18 +54,20 @@ options(pillar.sigfig = 7)
 # 1. Executive Summary
   
 ## 1.1 Introduction to the project
-This is a report for the Harvard Data Science: Capstone -course Project on MovieLens. The MovieLens movie prediction model assignment is first of two assignments included in the Capstone course. MovieLens data set, or rather a fraction of it, was also used in the previous Harvard Data Science course Machine Learning. Therefore, this project starts from where the previous course left off and is building on the thought work and models already done during that course. For continuity and ease of understanding what is new and what is reused some of the variables, data frames and functions. The parts that are essentially the same have been noted in the R code.
+This is a report for the Harvard Data Science: Capstone -course Project on MovieLens. The MovieLens movie prediction model assignment is first of two assignments included in the Capstone course. MovieLens data set, or rather a fraction of it, was also used in the previous Harvard Data Science course Machine Learning. Therefore, this project starts from where the previous course left off and is building on the thought work and models already done during that course. For continuity and ease of understanding the parts that are new and reused (some of the variables, data frames and functions) follow the same structure and notations as in the previous course. Also, the parts that are essentially the same as in the previous course have been noted in the R code.
 
 This project report presents the data evaluation, cleansing and analyses work done to determine the prediction model building blocks. Data analyses that was already done in the course Machine Learning or the initial quiz of the Capstone course are not repeated in this project work.
 
-This report does not include the R code used to ensure that reader is able to follow the thought process and the results easily. In other words, you do not need to be proficient in data science or R code to be able to read this report. The appendix of this report is targeting an audience interested in understanding the analytical models and R code used to conduct the analysis and model building work done.  
+The body of this report does not include the R code used to ensure that reader is able to follow the thought process and the results easily. In other words, you do not need to be proficient in data science or R code to be able to read this report. The appendix of this report includes all of the code and is targeting an audience interested in understanding the analytical models and R code used to conduct the analysis and model building work done.  
 
 ## 1.2 Data set 
 The original data was obtained from Grouplens and it is the MovieLens 10M data set:  
+
 * https://grouplens.org/datasets/movielens/10m/
 * http://files.grouplens.org/datasets/movielens/ml-10m.zip
 
 The data table generated from the source files and used in this project includes following columns:  
+
 * userId,  
 * movieId,  
 * rating,  
@@ -78,11 +80,11 @@ In the source files all the users were selected at random. There were no demogra
 ## 1.3 The goal, model used and the results
 The goal of the project was to develop a movie recommendation prediction model to predict the user rating of a movie on the validation set (20% of the entire data set) based on the model developed on the edx data set (80%  of the entire data set). 
 
-The model was developed using the least squares estimate approximation and regularization with data on mean rating, movie bias, user bias, genre bias and movie's year of publication. Other models were experimented with (e.g. caret -package algorithms using the train -function as well as matrix factorization), but due to the size of the data set using any other method was not feasible from performance point of view. 
+The model was developed using the least squares estimate (LSE) approximation and regularization with data on mean rating, movie bias, user bias, genre bias and movie's year of publication. Other models were experimented with (e.g. caret -package algorithms using the train -function as well as matrix factorization), but due to the size of the data set using any other method was not feasible from performance point of view. 
 
 Target of the project was to build a model that achieves a residual mean squared error (RMSE) lower than 0.86490. The final result achieved with the model developed using the edx data set resulted on the validation set in RMSE of: 
 ```{r results1, echo=FALSE, eval=TRUE, results="asis"} 
-readRDS("MovieLens_validation_RMSE_2021-02-18.RDS")
+#readRDS("MovieLens_validation_RMSE_2021-02-18.RDS")
 ```
 
 
@@ -101,9 +103,9 @@ The key steps that were performed were:
 3. Creating the training and test sets from the edx data set for the model development  
 4. The model development
  + Starting with the model developed in the course 8. Machine Learning / Recommendation System - Creating functions and tables needed,
- + Building on the model with genre bias,
- + Building on the model with year of publishing the movie bias,
- + Building on the model with regularization.
+ + Building on the least squares estimate (LSE) model with genre bias,
+ + Building on the least squares estimate (LSE) model with year of publishing the movie bias,
+ + Building on the least squares estimate (LSE) model with regularization.
  
 5.Validation of the developed model on the validation data set and calculating the residual mean squared error (RMSE) of the model on the validation data set.  
 
@@ -117,7 +119,7 @@ MovieLens data set, or rather a fraction of it, was also used in a previous Harv
 
 The final part of the analysis section (2.4) focuses on the process of developing the model. Including the parts that were reused from the Data Science course 8. Machine Learning. The reused parts are noted in the comments as reused and kept close to the original used in the Machine Learning course. They are included as they create data frames and functions required by the further developed model.  
 
-The model was developed using the least squares estimate approximation and regularization with data on mean rating, movie bias, user bias, genre bias and movie's year of publication. Other models were experimented with (e.g. caret -package algorithms using the train -function as well as matrix factorization), but due to the size of the data set using any other method was not feasible from performance point of view. 
+The model was developed using the least squares estimate (LSE) approximation and regularization with data on mean rating, movie bias, user bias, genre bias and movie's year of publication. Other models were experimented with (e.g. caret -package algorithms using the train -function as well as matrix factorization), but due to the size of the data set using any other method was not feasible from performance point of view. 
 
 ## 2.1. Data exploration and cleaning
 The original data was obtained from Grouplens and it is the MovieLens 10M dataset: 
@@ -125,7 +127,7 @@ The original data was obtained from Grouplens and it is the MovieLens 10M datase
 * https://grouplens.org/datasets/movielens/10m/  
 * http://files.grouplens.org/datasets/movielens/ml-10m.zip 
 
-The required libraries and the data set was loaded, the edx and validation data sets were created as per the instructions given in the Capstone Movielens project assignment submission brief.
+The required libraries and the data set were loaded, the edx and validation data sets were created as per the instructions given in the Capstone Movielens project assignment submission brief.
 ```{r loading-libs, echo=FALSE, eval=TRUE, tidy = TRUE, size="small", results=FALSE, message=FALSE, warning=FALSE}
 # Note: Loading of the libraries could take a couple of minutes
 
@@ -180,6 +182,7 @@ saveRDS(validation, file = "MovieLens_validation_2021-02-18.RDS")
 ```
 
 In the data exploration and cleaning the columns of interest where following:  
+
 * Genres,  
 * Timestamp,  
 * Year of publishing the movie extracted from the the title -column.  
@@ -228,12 +231,12 @@ edx<- readRDS("MovieLens_edx_2021-02-18.RDS")
 temp1 <- edx %>%
   group_by(genres) %>%
   summarize(count = n()) %>%
-  arrange(count)
+  arrange(desc(count))
 # The most common
 slice_tail(temp1, n= 10)
 ```
 
-When analyzing the genre types there were two genres that outside the standard categories namely: IMAX and "no genres listed". You can see them in the bottom of the following list. 
+When analyzing the genre types column, there were two genres that were outside the standard categories namely: IMAX and "no genres listed". You can see them in the bottom of the following list. 
 ```{r analyzing-genre-types, echo=FALSE, eval=TRUE, tidy = TRUE, size="small", results="asis", message=FALSE, warning=FALSE}
 
 #read from file
@@ -275,7 +278,7 @@ slice_tail(temp2 , n= 21)
 #category "Short"
 ```
 
-Conclusion of the analysis is that there are very few "IMAX" and "(no genres listed)" and both fall under the category "Short movies". 
+Conclusion of the analysis was that there are very few "IMAX" and "(no genres listed)" and both fall under the category "Short movies". 
 
 To improve the data analysis they were both updated to a new category "Short".
 ```{r genres-mod, echo=FALSE, eval=TRUE, tidy = TRUE, size="small", results="asis", message=FALSE, warning=FALSE}
@@ -291,7 +294,7 @@ saveRDS(edx, file = "MovieLens_edx1_2021-02-18.RDS")
 
 ```
 
-After creating the new version of the genres into a new column (genres_mod), I analyzed the average ratings per genre. Even without seeing the specific genre combination names in the plot below, you can see that there are differences between the genres.
+After creating the new version of the genres into a new column (genres_mod), I analyzed the average ratings per genre. Even without seeing the specific genre combination names in the plot below, you can see that there are differences between the genres and the error bars do not overlap.
 
 ```{r analyze1, echo=FALSE, eval=TRUE, tidy = TRUE, size="small",  results="asis", message=FALSE, warning=FALSE, fig.align='center'}
 #Read from file
@@ -320,7 +323,7 @@ temp_genres <- edx %>%
 temp_genres
 ```
 
-From this analyses you could already make a conclusion that movie ratings seem to be impacted by the genres or or combinations of genres they were tagged with. So, it was included  in the model development.
+From this analyses you could already make a conclusion that movie ratings seem to be impacted by the genres (or the combinations of genres) they were tagged with. So, the genres column was included in the model development.
 
 ### 2.1.2 Analyzing timestamp -column data
 
@@ -354,11 +357,11 @@ temp_d <- edx %>%
 temp_d 
 ```
 
-The conclusion from the plot above is that the timestamp data does not seem to have a significant impact on the rating given. So, timestamp column was ignored in the model development.
+The conclusion from the plot above wass that the timestamp data does not seem to have a significant impact on the rating given. So, timestamp column was ignored in the model development.
 
 ### 2.1.3 Analyzing the year a movie was published
 
-In order to conduct analysis on the movie's year of publishing required some data manipulation in form of string processing. A new column year_pub was created to store the year a movie was published. The data was pulled from the title field. The plot below shows the average rating per year of publishing.
+In order to conduct analysis on the movie's year of publishing, some data manipulation was required in form of string processing. A new column (year_pub) was created to store the year a movie was published. The data was pulled from the title field. The plot below shows the average rating per year of publishing.The plot includes also the error bars, and without few exceptions the error bars do not overlap much.
 ```{r analyzing-year-movie-published, echo=FALSE, eval=TRUE, tidy = TRUE, size="small",  results="asis", message=FALSE, warning=FALSE, fig.align='center'}
 #Read from file
 edx<- readRDS("MovieLens_edx1_2021-02-18.RDS")
@@ -447,9 +450,9 @@ saveRDS(test_set, file = "MovieLens_test_set_2021-02-18.RDS")
 
 This section focuses on the process of developing the Movielens recommendation model. 
 
-The model was developed using the least squares estimate approximation and regularization with data on mean rating, movie bias, user bias, genre bias and movie's year of publication. Other models were experimented with (e.g. caret -package algorithms using the train -function as well as matrix factorization), but due to the size of the data set using any other method was not feasible from performance point of view. 
+The model was developed using the least squares estimate (LSE) approximation and regularization with data on mean rating, movie bias, user bias, genre bias and movie's year of publication. Other models were experimented with (e.g. caret -package algorithms using the train -function as well as matrix factorization), but due to the size of the data set using any other method was not feasible from performance point of view. 
 
-The parts that were reused from the Data Science course 8. Machine Learning are commented in the code comments. The RMSE function and storing of the RMSE results followed the same conventions.
+The parts that were reused from the Data Science course 8. Machine Learning are commented in the code comments. The RMSE function and storing of the RMSE results followed the same conventions as used in the previous course.
 ```{r creating-RMSE-fuction, echo=FALSE, eval=TRUE, tidy = TRUE, size="small",  results="asis", message=FALSE, warning=FALSE}
 #We use the same function as used in the course 8 to compute 
 #the RMSE for vectors of ratings and their corresponding predictors:
@@ -457,7 +460,7 @@ RMSE <- function(true_ratings, predicted_ratings){
   sqrt(mean((true_ratings - predicted_ratings)^2))
 }
 ```
-As do the data frames and variables created in the course 8 version of the Movielens recommendation method, as they are required to further develop the model. 
+The reused data frames and variables created in the course 8 version of the Movielens recommendation method that are required to further develop the model, also followed the same coding conventions.
 ```{r creating-datafames, echo=FALSE, eval=TRUE, tidy = TRUE, size="small",  results="asis", message=FALSE, warning=FALSE}
 #Read from file
 train_set<- readRDS("MovieLens_train_set_2021-02-18.RDS")
@@ -490,9 +493,9 @@ saveRDS(user_avgs, file = "MovieLens_user_avgs_2021-02-18.RDS")
 ```
 
 ### 2.3.1 Building on the model with genre bias
-The first new bias added to the model developed in the course 8 is genre bias, or in other words the genre effect, on the ratings of the movies. As we analyzed in the section 2.1.1 the average ratings given to a movie differ based on the genre or combination genres that have been linked to the movie. 
+The first new bias added to the model developed in the course 8 was genre bias, or in other words the genre effect, on the ratings of the movies. As we analyzed in the section 2.1.1 the average ratings given to a movie differ based on the genre (or combination of genres) that have been linked to the movie. 
 
-So, we are analyzing how the LSE approximation changes, when genre bias is added to the mix in addition to the original mu (average rating), movie bias and user bias. The diagram below highlights the variations in the estimates.
+So, I analyzed how the LSE approximation changed, when genre bias was added to the mix in addition to the original mu (average rating), movie bias and user bias. The diagram below highlights the variations in the estimates.
 ```{r adding-genre-effect, echo=FALSE, eval=TRUE, tidy = TRUE, size="small",  results="asis", message=FALSE, warning=FALSE, fig.align='center'}
 
 #Read from file
@@ -529,7 +532,7 @@ genre_avgs %>%
 #Save to file
 saveRDS(genre_avgs, file = "MovieLens_genre_avgs_2021-02-18.RDS")
 ```
-Computing the combination of the genre, movie and user effects prediction and RMSE resulted in an improvement in the residual mean squared error (RMSE) compared to the one achieved by the models developed in the course 8. Machine Learning. You can see the RMSE results in the table below. However, the improvement is not quite where it should be to achieve the RMSE target set for this project.
+Computing the combination of the genre, movie and user effects prediction and its RMSE resulted in an improvement in the residual mean squared error (RMSE) compared to the one achieved by the models developed in the course 8. Machine Learning. You can see the RMSE results in the table below. However, the improvement is not quite where it should be to achieve the RMSE target set for this project.
 ```{r computing-genre-movie-and-user-effects-prediction-RMSE, echo=FALSE, eval=TRUE, tidy = TRUE, size="small", results="asis", message=FALSE, warning=FALSE}
 
 #Read from file
@@ -563,7 +566,7 @@ saveRDS(rmse_results, file = "MovieLens_rmse_results_2021-02-18.RDS")
 
 ### 2.3.2 Building on the model with year of publishing the movie bias
 
-Next the publishing year's bias or effect on the movie rating was added to the model. The results of the variation in the estimates is plotted below.
+Next the publishing year's bias (or effect) on the movie rating was added to the model. The results of the variation in the estimates is plotted below.
 ```{r adding-year-published, echo=FALSE, eval=TRUE, tidy = TRUE, size="small",  results="asis", message=FALSE, warning=FALSE, fig.align='center'}
 
 #Read from file
@@ -588,8 +591,7 @@ pub_year_avgs <-train_set %>%
 #Visualization of the results
 pub_year_avgs %>%
   ggplot(aes(b_y)) +
-  geom_histogram(bins = 10, color ="white")+ 
-  geom_bar(fill="#339999") +
+  geom_histogram(bins = 10, color ="white")+
   ggtitle("Variation in the estimates", subtitle = "Publising Year effect") +
   theme(
     panel.background = element_rect(fill = "lightblue",
@@ -642,11 +644,11 @@ The previous and improved models RMSE results can be observed in the table above
 
 ### 2.3.2 Using Regularization
 
-Next we tried regularization on the model to see if it had an impact on rating prediction RMSE. Regularization was used to improve the model performance in the course 8 also, but with fewer biases. The current model has the additional biases form genres and publication year. 
+Next I tried regularization on the the least squares estimate (LSE) model to see if it had an impact on rating prediction RMSE. Regularization was used to improve the model performance in the course 8 also, but with fewer biases. Regularization was used on the model that had the additional biases from genres and publication year. 
 
-As we know regularization permits us to penalize large estimates that are formed using small sample sizes.  We'll need to test out how penalized least squares behaves in the project's data set with the least squared estimate approximation model including movie, user, genre  and publishing year biases.  
+As we know regularization permits us to penalize large estimates that are formed using small sample sizes.  I needed to test out how penalized least squares behaves in the project's data set (edx) with the least squared estimate approximation model including movie, user, genre  and publishing year biases.  
 
-We are using sapply cross validation in choosing our penalty terms. The plot below visualizes the lambda values, i.e. the penalty terms using cross validation, over the RMSEs.
+I usied (sapply) cross validation in choosing the penalty term. The plot below visualizes the lambda values, i.e. the penalty terms using cross validation, over the RMSEs.
 ```{r regularization1, message=FALSE, echo=FALSE, eval=TRUE, tidy = TRUE, size="small", results="asis", warning=FALSE, fig.align='center'}
 
 #Read from file
@@ -731,16 +733,39 @@ saveRDS(rmse_results, file = "MovieLens_rmse_results_2021-02-18.RDS")
 *** 
 \newpage
 # 3. The Results
-This results section presents the prediction model results and discusses the model performance.  
+This results section presents the prediction of the regularized least squares estimate (LSE) approximation model results and discusses the model performance.  
 
 The following table displays the final results of the model's performance on the validation data set. The performance is measures by calculating the residual mean squared error (RMSE) of the model developed with the edx data set and evaluating the movie rating prediction it gives on the validation data set. As the validation set has not been used to train the model, this should give a fair representation of the model's performance.
 ```{r validation-on-validationdata, echo=FALSE, eval=TRUE, tidy = TRUE, size="small", results="asis", message=FALSE, warning=FALSE}
+
+
+##########################################################
+## Verifying the model with validation data set
+##########################################################
 
 #Read from file
 edx<- readRDS("MovieLens_edx2_2021-02-18.RDS")
 validation<- readRDS("MovieLens_validation_2021-02-18.RDS")
 l <- readRDS("MovieLens_lambda_2021-02-18.RDS")
 rmse_results <- readRDS("MovieLens_rmse_results_2021-02-18.RDS")
+
+#creating the new field for genres_modin validation data set
+validation <- validation %>%
+  mutate(genres_mod = if_else(genres == "IMAX" | genres =="(no genres listed)",
+                              "Short", genres))
+
+#Creating a new column for year movie was published
+#Patterns for extracting the year of publishing
+pattern1 <- "\\(\\d{4}\\)$"
+pattern2 <- "\\d{4}"
+
+#creating the new field for year_pub
+validation1 <- validation %>%
+  mutate(year_pub = str_match(title, pattern1)) %>%
+  mutate(year_pub = str_extract(year_pub, pattern2))
+
+#save to file
+saveRDS(validation1, file = "MovieLens_validation1_results_2021-02-18.RDS")
 
 #Calculating mu
 mu <- mean(edx$rating)
@@ -775,22 +800,7 @@ b_y_tab <-edx %>%
 #Computing year of publishing the movie, genre, movie and user effects 
 #prediction and RMSE:
 
-#creating the new field for genres_mod
-validation <- validation %>%
-  mutate(genres_mod = if_else(genres == "IMAX" | genres =="(no genres listed)",
-                              "Short", genres))
-
-#Creating a new column for year movie was published
-#Patterns for extracting the year of publishing
-pattern1 <- "\\(\\d{4}\\)$"
-pattern2 <- "\\d{4}"
-
-#creating the new field for year_pub
-validation <- validation %>%
-  mutate(year_pub = str_match(title, pattern1)) %>%
-  mutate(year_pub = str_extract(year_pub, pattern2))
-
-predicted_ratings_valid <- validation %>% 
+predicted_ratings_valid <- validation1 %>% 
   left_join(b_i_tab, by = 'movieId') %>%
   left_join(b_u_tab, by = 'userId') %>%
   left_join(b_g_tab, by='genres_mod') %>%
@@ -799,7 +809,7 @@ predicted_ratings_valid <- validation %>%
   pull(pred)
 
 
-validation_RMSE <- RMSE(predicted_ratings_valid, validation$rating)
+validation_RMSE <- RMSE(predicted_ratings_valid, validation1$rating)
 
 #Adding the results as a new row to the RMSE tibble
 rmse_results <- bind_rows(rmse_results,
@@ -809,26 +819,33 @@ rmse_results <- bind_rows(rmse_results,
 rmse_results 
 
 #Saving to file
-saveRDS(rmse_results, file = "MovieLens_rmse_results_2021-02-18.RDS")
-saveRDS(validation_RMSE, file = "MovieLens_validation_RMSE_2021-02-18.RDS")
+saveRDS(rmse_results, file = "MovieLens_rmse_results2_2021-02-18.RDS")
+saveRDS(validation_RMSE, file = "MovieLens_validation_RMSE2_2021-02-18.RDS")
 
 ```
 
-Now we have achieved the projects target of developing a model that perefomes better on the validation data set than a residual mean squared error (RMSE) lower than 0.86490 as the achieved RMSE was: 
+Now we have achieved the projects target of developing a model that performs better on the validation data set than a residual mean squared error (RMSE) lower than 0.86490 as the achieved RMSE was: 
 ```{r results2, echo=FALSE, eval=TRUE, tidy = TRUE, size="small", results="asis", message=FALSE, warning=FALSE}
-readRDS("MovieLens_validation_RMSE_2021-02-18.RDS")
+readRDS("MovieLens_validation_RMSE2_2021-02-18.RDS")
 ```
 
 *** 
 \newpage
 # 4. The Conclusions
-In conclusion the target set for the project were achievable roughly within the time guidelines given by the Capstone course assignment brief and with the available computer memory and CPU capacity. 
+In conclusion the target set for the project were achievable roughly within the time guidelines given by the Capstone course assignment brief and with the available computer memory and CPU capacity. The prediction of the regularized least squares estimate (LSE) approximation model achieved a residual mean squared error (RMSE) lower than the target. 
 
-In order to perform more elaborate analysis e.g. using the caret -package train function and the multitude of algorithms that it includes, would have required more processing capacity e.g. using cloud computing. However, as that is outside the scope of the Capstone course that was not done. All though if it were not for the performance issues, it would have been interesting to see how much a model based ensemble of several algorithms would have improved the predictions RMSE.
+In order to perform more elaborate analysis e.g. using the caret -package train function and the multitude of algorithms that it includes, would have required more processing capacity e.g. using cloud computing. However, as that is outside the scope of the Capstone course that was not done. If it were not for the performance issues, it would have been interesting to see how much a model based ensemble of several algorithms would have improved the predictions RMSE.
+
 
 *** 
 \newpage
 # Appendix: All code for this report
+
+## For the readers of the RScript
+
+I have to admit that producing a readable report using rmarkdown proved more time consuming than I had anticipated. Also, there were challenges in keeping the code bases same in the plain RScript and the RMarkdown file once I started to add the parts required in the report development. However, the ability to update and modify the report using Rmarkdown file are unmatched with other more manual means of creating the final version of the report. 
+
+Unfortunately, as the code bases in the RMarkdown file and the RScript started to change, they are now not identical anymore. Due to my lack of ability to get the autodependency option / parameters to work as I wanted, I had to resort to using RDS save and read -functions in the code chunks. This may confuse the reader of the code. The unintended benefit of doing so resulted in improved ability to debog any deviations that resulted between the to versions of the RScript after spliting to RScript file and RMarkdown file. So, keep these in mind as you read the code below.
 
 Below you will find all of the code related to this report.
 ```{r ref.label=knitr::all_labels(), echo=TRUE, eval=FALSE, width = 200}
